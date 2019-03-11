@@ -18,7 +18,8 @@ public class SnakeBody : MonoBehaviour
         if (index < length)
         {
             GameObject newBodyPart = Instantiate(bodyPart, parent);
-            var bodyPartPosition = GetBodyPartPositionRelativeToParent(parent.position, direction);
+            var bodyPartPosition = SnakeBodyPart.GetBodyPartPositionRelativeToParent(
+                parent.position, direction);
             newBodyPart.GetComponent<SnakeBodyPart>().Init(direction, bodyPartPosition);
             InstantiateBodyParts(
                 index + 1,
@@ -28,27 +29,9 @@ public class SnakeBody : MonoBehaviour
         }
     }
 
-    public void Move(Vector3 newPosition, Directions newDirection)
+    public void Move(Vector2 newPosition, Vector2 previousPosition, Directions newDirection)
     {
-        var p = GetBodyPartPositionRelativeToParent(newPosition, newDirection);
+        var p = SnakeBodyPart.GetBodyPartPositionRelativeToParent(newPosition, previousPosition, newDirection);
         transform.GetChild(0).GetComponent<SnakeBodyPart>().Move(p, newDirection);
     }
-
-    public static Vector2 GetBodyPartPositionRelativeToParent(Vector2 position, Directions direction)
-    {
-        switch (direction)
-        {
-            case (Directions.Up):
-                return new Vector2(position.x, position.y - 1);
-            case (Directions.Right):
-                return new Vector2(position.x - 1, position.y);
-            case (Directions.Down):
-                return new Vector2(position.x, position.y + 1);
-            case (Directions.Left):
-                return new Vector2(position.x + 1, position.y);
-            default:
-                return new Vector2(position.x - 1, position.y);
-        }
-    }
-
 }

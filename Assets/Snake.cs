@@ -12,12 +12,9 @@ public class Snake : MonoBehaviour
     const int STARTING_LENGTH = 2;
     const float WAIT_TIME = 2f;
 
-    // All objects have 0,5 offset with respect to the Grid
-    const float GRID_OFFSET = .5f;
-
+    //private readonly Config config;
     private readonly SnakeHead _head;
     private readonly SnakeBody _body;
-    private Rect _gridSize;
     private float _updateTimer = 0f;
 
     private Directions _direction;
@@ -36,8 +33,6 @@ public class Snake : MonoBehaviour
         Direction = Directions.Right;
 
         GetComponentInChildren<SnakeBody>().Init(Direction, STARTING_LENGTH);
-        _gridSize = new Rect(
-            GRID_OFFSET, GRID_OFFSET, (Screen.width / 16) + GRID_OFFSET, (Screen.height / 16) + GRID_OFFSET);
     }
 
     void Update()
@@ -75,6 +70,7 @@ public class Snake : MonoBehaviour
 
     void Move()
     {
+        var previousPosition = transform.position;
         switch (Direction)
         {
             case (Directions.Up):
@@ -91,26 +87,26 @@ public class Snake : MonoBehaviour
                 break;
         }
         CheckBounds();
-        GetComponentInChildren<SnakeBody>().Move(transform.position, Direction);
+        GetComponentInChildren<SnakeBody>().Move(transform.position, previousPosition, Direction);
     }
 
     void CheckBounds()
     {
-        if (transform.position.x >= _gridSize.width)
+        if (transform.position.x >= Config.GridSize.width)
         {
-            transform.position = new Vector2(_gridSize.x, transform.position.y);
+            transform.position = new Vector2(Config.GridSize.x, transform.position.y);
         }
-        if (transform.position.y >= _gridSize.height)
+        if (transform.position.y >= Config.GridSize.height)
         {
-            transform.position = new Vector2(transform.position.x, _gridSize.y);
+            transform.position = new Vector2(transform.position.x, Config.GridSize.y);
         }
-        if (transform.position.x < _gridSize.x)
+        if (transform.position.x < Config.GridSize.x)
         {
-            transform.position = new Vector2(_gridSize.width - 1, transform.position.y);
+            transform.position = new Vector2(Config.GridSize.width - 1, transform.position.y);
         }
-        if (transform.position.y < _gridSize.y)
+        if (transform.position.y < Config.GridSize.y)
         {
-            transform.position = new Vector2(transform.position.x, _gridSize.height - 1);
+            transform.position = new Vector2(transform.position.x, Config.GridSize.height - 1);
         }
     }
 }
