@@ -21,7 +21,6 @@ public class Snake : MonoBehaviour
     private float _updateTimer = 0f;
 
     private Directions _direction;
-    private Directions _previousDirection;
     private Directions Direction
     {
         get => _direction;
@@ -35,7 +34,8 @@ public class Snake : MonoBehaviour
     void Start()
     {
         Direction = Directions.Right;
-        GetComponentInChildren<SnakeBody>().Init(transform.position, Direction, STARTING_LENGTH);
+
+        GetComponentInChildren<SnakeBody>().Init(Direction, STARTING_LENGTH);
         _gridSize = new Rect(
             GRID_OFFSET, GRID_OFFSET, (Screen.width / 16) + GRID_OFFSET, (Screen.height / 16) + GRID_OFFSET);
     }
@@ -57,29 +57,24 @@ public class Snake : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.UpArrow) && Direction != Directions.Down)
         {
-            _previousDirection = Direction;
             Direction = Directions.Up;
         }
         if (Input.GetKeyDown(KeyCode.RightArrow) && Direction != Directions.Left)
         {
-            _previousDirection = Direction;
             Direction = Directions.Right;
         }
         if (Input.GetKeyDown(KeyCode.DownArrow) && Direction != Directions.Up)
         {
-            _previousDirection = Direction;
             Direction = Directions.Down;
         }
         if (Input.GetKeyDown(KeyCode.LeftArrow) && Direction != Directions.Right)
         {
-            _previousDirection = Direction;
             Direction = Directions.Left;
         }
     }
 
     void Move()
     {
-        var previousHeadPosition = transform.position;
         switch (Direction)
         {
             case (Directions.Up):
@@ -96,7 +91,7 @@ public class Snake : MonoBehaviour
                 break;
         }
         CheckBounds();
-        GetComponentInChildren<SnakeBody>().Move(previousHeadPosition, _previousDirection);
+        GetComponentInChildren<SnakeBody>().Move(transform.position, Direction);
     }
 
     void CheckBounds()

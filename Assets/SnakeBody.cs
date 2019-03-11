@@ -2,50 +2,52 @@
 
 public class SnakeBody : MonoBehaviour
 {
+    // Prefab to be instantiated for each part of the body
     public GameObject bodyPart;
 
     private int _length;
 
-    public void Init(Vector2 startingPosition, Directions startingDirection, int length)
+    public void Init(Directions direction, int length)
     {
         _length = length;
-        for (int i = 0; i < length; i++)
+        InstantiateBodyParts(0, length, transform, direction);
+    }
+
+    private void InstantiateBodyParts(int index, int length, Transform parent, Directions direction)
+    {
+        if (index < length)
         {
-            GameObject newBodyPart = Instantiate(bodyPart, transform);
-            newBodyPart.transform.position = GetBodyPartStartingPosition(
-                startingPosition, startingDirection, i);
-            //bodyParts.Add(new SnakeBodyPart(snakeBodySprite)
-            //{
-            //    Position = new Vector2(startingPosition.X - 16 * i, startingPosition.Y),
-            //    CurrentTile = HeadDirection,
-            //    PreviousDirection = HeadDirection
-            //});
-            //if (i > 0)
-            //{
-            //    bodyParts[i].Next = bodyParts[i - 1];
-            //}
+            GameObject newBodyPart = Instantiate(bodyPart, parent);
+            var bodyPartPosition = GetBodyPartPositionRelativeToParent(parent.position, direction);
+            newBodyPart.GetComponent<SnakeBodyPart>().Init(direction, bodyPartPosition);
+            InstantiateBodyParts(
+                index + 1,
+                length,
+                newBodyPart.transform,
+                direction);
         }
     }
 
     public void Move(Vector3 newPosition, Directions newDirection)
     {
-        transform.position = newPosition;
+        var p = GetBodyPartPositionRelativeToParent(newPosition, newDirection);
+        transform.GetChild(0).GetComponent<SnakeBodyPart>().Move(p, newDirection);
     }
 
-    Vector2 GetBodyPartStartingPosition(Vector2 position, Directions direction, int i)
+    public static Vector2 GetBodyPartPositionRelativeToParent(Vector2 position, Directions direction)
     {
         switch (direction)
         {
             case (Directions.Up):
-                return new Vector2(position.x, position.y - i);
+                return new Vector2(position.x, position.y - 1);
             case (Directions.Right):
-                return new Vector2(position.x - i, position.y);
+                return new Vector2(position.x - 1, position.y);
             case (Directions.Down):
-                return new Vector2(position.x, position.y + i);
+                return new Vector2(position.x, position.y + 1);
             case (Directions.Left):
-                return new Vector2(position.x + i, position.y);
+                return new Vector2(position.x + 1, position.y);
             default:
-                return new Vector2(position.x - i, position.y);
+                return new Vector2(position.x - 1, position.y);
         }
     }
 
