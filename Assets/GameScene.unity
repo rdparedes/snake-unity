@@ -1352,7 +1352,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AteApple: 0
   IsDead: 0
-  speed: 4
+  speed: 10
 --- !u!4 &1527399438
 Transform:
   m_ObjectHideFlags: 0

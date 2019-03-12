@@ -31,26 +31,6 @@ public class SnakeHead : MonoBehaviour
         }
     }
 
-    public void HandleInput()
-    {
-        if (Input.GetKeyDown(KeyCode.UpArrow) && Direction != Directions.Down)
-        {
-            Direction = Directions.Up;
-        }
-        if (Input.GetKeyDown(KeyCode.RightArrow) && Direction != Directions.Left)
-        {
-            Direction = Directions.Right;
-        }
-        if (Input.GetKeyDown(KeyCode.DownArrow) && Direction != Directions.Up)
-        {
-            Direction = Directions.Down;
-        }
-        if (Input.GetKeyDown(KeyCode.LeftArrow) && Direction != Directions.Right)
-        {
-            Direction = Directions.Left;
-        }
-    }
-
     public void Move()
     {
         switch (Direction)

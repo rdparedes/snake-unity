@@ -17,6 +17,7 @@ public class Snake : MonoBehaviour
     private float _updateTimer = 0f;
 
     private Directions _direction;
+    private Directions _nextDirection;
     private Directions Direction
     {
         get => _direction;
@@ -30,6 +31,7 @@ public class Snake : MonoBehaviour
     void Start()
     {
         Direction = Directions.Right;
+        _nextDirection = Direction;
         _head = GetComponentInChildren<SnakeHead>();
         _body = GetComponentInChildren<SnakeBody>();
         _body.Init(Direction, STARTING_LENGTH);
@@ -39,14 +41,35 @@ public class Snake : MonoBehaviour
     {
         _updateTimer += Time.deltaTime * speed;
 
-        _head.HandleInput();
+        HandleInput();
 
         if (_updateTimer >= WAIT_TIME)
         {
             var previousPosition = _head.transform.position;
+            Direction = _nextDirection;
             _head.Move();
-            _body.Move(_head.transform.position, previousPosition, Direction);
+            _body.Move(previousPosition, Direction);
             _updateTimer -= WAIT_TIME;
+        }
+    }
+
+    void HandleInput()
+    {
+        if (Input.GetKeyDown(KeyCode.UpArrow) && Direction != Directions.Down)
+        {
+            _nextDirection = Directions.Up;
+        }
+        if (Input.GetKeyDown(KeyCode.RightArrow) && Direction != Directions.Left)
+        {
+            _nextDirection = Directions.Right;
+        }
+        if (Input.GetKeyDown(KeyCode.DownArrow) && Direction != Directions.Up)
+        {
+            _nextDirection = Directions.Down;
+        }
+        if (Input.GetKeyDown(KeyCode.LeftArrow) && Direction != Directions.Right)
+        {
+            _nextDirection = Directions.Left;
         }
     }
 }

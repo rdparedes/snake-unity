@@ -13,7 +13,7 @@ public class SnakeBody : MonoBehaviour
         InstantiateBodyParts(0, length, direction);
     }
 
-    public void Move(Vector2 newPosition, Vector2 previousPosition, Directions newDirection)
+    public void Move(Vector2 previousPosition, Directions newDirection)
     {
         transform.GetChild(0).GetComponent<SnakeBodyPart>().Move(previousPosition, newDirection);
     }
