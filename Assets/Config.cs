@@ -6,7 +6,7 @@ public class Config : MonoBehaviour
     const float GRID_OFFSET = .5f;
     public static Rect GridSize { get; private set; }
 
-    void Start()
+    public static void Init()
     {
         GridSize = new Rect(
             GRID_OFFSET,
