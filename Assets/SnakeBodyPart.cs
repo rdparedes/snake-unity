@@ -53,12 +53,12 @@ public class SnakeBodyPart : MonoBehaviour
                     {
                         if (lastDirection == Directions.Up)
                         {
-                            GetComponent<SpriteRenderer>().sprite = spCornerRightUp;
+                            GetComponent<SpriteRenderer>().sprite = spCornerLeftDown;
 
                         }
                         else if (lastDirection == Directions.Down)
                         {
-                            GetComponent<SpriteRenderer>().sprite = spCornerRightDown;
+                            GetComponent<SpriteRenderer>().sprite = spCornerLeftUp;
                         }
                         else
                         {
@@ -97,12 +97,12 @@ public class SnakeBodyPart : MonoBehaviour
                     {
                         if (lastDirection == Directions.Up)
                         {
-                            GetComponent<SpriteRenderer>().sprite = spCornerLeftUp;
+                            GetComponent<SpriteRenderer>().sprite = spCornerRightDown;
 
                         }
                         else if (lastDirection == Directions.Down)
                         {
-                            GetComponent<SpriteRenderer>().sprite = spCornerLeftDown;
+                            GetComponent<SpriteRenderer>().sprite = spCornerRightUp;
                         }
                         else
                         {
