@@ -70,4 +70,9 @@ public class SnakeHead : MonoBehaviour
             transform.position = new Vector2(transform.position.x, Config.GridSize.height - 1);
         }
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        SendMessageUpwards("AteRabbit");
+    }
 }

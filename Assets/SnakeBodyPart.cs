@@ -14,125 +14,145 @@ public class SnakeBodyPart : MonoBehaviour
         spCornerRightDown,
         spCornerRightUp;
 
+    public Vector2 PreviousPosition { get; private set; }
     private GameObject _child;
-    public GameObject Child { set => _child = value; }
+    public GameObject Child
+    {
+        get => _child;
+        set
+        {
+            _child = value;
+            UpdateSprite();
+        }
+    }
     private Directions _direction;
-    private Directions Direction
+    public Directions LastDirection { get; private set; }
+    public Directions Direction
     {
         get => _direction;
         set
         {
-            var lastDirection = _direction;
+            LastDirection = _direction;
             _direction = value;
-            switch (_direction)
-            {
-                case (Directions.Up):
-                    if (_child)
-                    {
-                        if (lastDirection == Directions.Right)
-                        {
-                            GetComponent<SpriteRenderer>().sprite = spCornerRightUp;
-
-                        }
-                        else if (lastDirection == Directions.Left)
-                        {
-                            GetComponent<SpriteRenderer>().sprite = spCornerLeftUp;
-                        }
-                        else
-                        {
-                            GetComponent<SpriteRenderer>().sprite = spBodyVertical;
-                        }
-                    }
-                    else
-                    {
-                        GetComponent<SpriteRenderer>().sprite = spTailUp;
-                    }
-                    break;
-                case (Directions.Right):
-                    if (_child)
-                    {
-                        if (lastDirection == Directions.Up)
-                        {
-                            GetComponent<SpriteRenderer>().sprite = spCornerLeftDown;
-
-                        }
-                        else if (lastDirection == Directions.Down)
-                        {
-                            GetComponent<SpriteRenderer>().sprite = spCornerLeftUp;
-                        }
-                        else
-                        {
-                            GetComponent<SpriteRenderer>().sprite = spBodyHorizontal;
-                        }
-                    }
-                    else
-                    {
-                        GetComponent<SpriteRenderer>().sprite = spTailRight;
-                    }
-                    break;
-                case (Directions.Down):
-                    if (_child)
-                    {
-                        if (lastDirection == Directions.Left)
-                        {
-                            GetComponent<SpriteRenderer>().sprite = spCornerLeftDown;
-
-                        }
-                        else if (lastDirection == Directions.Right)
-                        {
-                            GetComponent<SpriteRenderer>().sprite = spCornerRightDown;
-                        }
-                        else
-                        {
-                            GetComponent<SpriteRenderer>().sprite = spBodyVertical;
-                        }
-                    }
-                    else
-                    {
-                        GetComponent<SpriteRenderer>().sprite = spTailDown;
-                    }
-                    break;
-                case (Directions.Left):
-                    if (_child)
-                    {
-                        if (lastDirection == Directions.Up)
-                        {
-                            GetComponent<SpriteRenderer>().sprite = spCornerRightDown;
-
-                        }
-                        else if (lastDirection == Directions.Down)
-                        {
-                            GetComponent<SpriteRenderer>().sprite = spCornerRightUp;
-                        }
-                        else
-                        {
-                            GetComponent<SpriteRenderer>().sprite = spBodyHorizontal;
-                        }
-                    }
-                    else
-                    {
-                        GetComponent<SpriteRenderer>().sprite = spTailLeft;
-                    }
-                    break;
-            }
+            UpdateSprite();
         }
     }
 
     public void Init(Directions startingDirection, Vector2 startingPosition)
     {
-        Direction = startingDirection;
+        LastDirection = startingDirection;
+        _direction = startingDirection;
+        UpdateSprite();
         transform.position = startingPosition;
     }
 
     public void Move(Vector2 newPosition, Directions newDirection)
     {
         Directions previousDirection = Direction;
+        PreviousPosition = transform.position;
         Direction = newDirection;
-        Vector2 previousPosition = transform.position;
         transform.position = newPosition;
-        if (_child)
+        if (Child)
         {
-            _child.GetComponent<SnakeBodyPart>().Move(previousPosition, previousDirection);
+            Child.GetComponent<SnakeBodyPart>().Move(PreviousPosition, previousDirection);
+        }
+    }
+
+    public void UpdateSprite()
+    {
+        GetComponent<SpriteRenderer>().sprite = GetSpriteForDirection();
+    }
+
+    private Sprite GetSpriteForDirection()
+    {
+        switch (_direction)
+        {
+            case (Directions.Up):
+                if (Child)
+                {
+                    if (LastDirection == Directions.Right)
+                    {
+                        return spCornerRightUp;
+
+                    }
+                    else if (LastDirection == Directions.Left)
+                    {
+                        return spCornerLeftUp;
+                    }
+                    else
+                    {
+                        return spBodyVertical;
+                    }
+                }
+                else
+                {
+                    return spTailUp;
+                }
+            case (Directions.Right):
+                if (Child)
+                {
+                    if (LastDirection == Directions.Up)
+                    {
+                        return spCornerLeftDown;
+
+                    }
+                    else if (LastDirection == Directions.Down)
+                    {
+                        return spCornerLeftUp;
+                    }
+                    else
+                    {
+                        return spBodyHorizontal;
+                    }
+                }
+                else
+                {
+                    return spTailRight;
+                }
+            case (Directions.Down):
+                if (Child)
+                {
+                    if (LastDirection == Directions.Left)
+                    {
+                        return spCornerLeftDown;
+
+                    }
+                    else if (LastDirection == Directions.Right)
+                    {
+                        return spCornerRightDown;
+                    }
+                    else
+                    {
+                        return spBodyVertical;
+                    }
+                }
+                else
+                {
+                    return spTailDown;
+                }
+            case (Directions.Left):
+                if (Child)
+                {
+                    if (LastDirection == Directions.Up)
+                    {
+                        return spCornerRightDown;
+
+                    }
+                    else if (LastDirection == Directions.Down)
+                    {
+                        return spCornerRightUp;
+                    }
+                    else
+                    {
+                        return spBodyHorizontal;
+                    }
+                }
+                else
+                {
+                    return spTailLeft;
+                }
+            default:
+                return spBodyHorizontal;
         }
     }
 }

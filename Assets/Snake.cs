@@ -35,6 +35,7 @@ public class Snake : MonoBehaviour
         _head = GetComponentInChildren<SnakeHead>();
         _body = GetComponentInChildren<SnakeBody>();
         _body.Init(Direction, STARTING_LENGTH);
+
     }
 
     void Update()
@@ -72,4 +73,6 @@ public class Snake : MonoBehaviour
             _nextDirection = Directions.Left;
         }
     }
+
+    void AteRabbit() => _body.Grow();
 }

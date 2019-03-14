@@ -5,6 +5,7 @@ public class SnakeBody : MonoBehaviour
     // Prefab to be instantiated for each part of the body
     public GameObject bodyPart;
 
+    private bool _shouldGrow = false;
     private int _length;
 
     public void Init(Directions direction, int length)
@@ -16,6 +17,19 @@ public class SnakeBody : MonoBehaviour
     public void Move(Vector2 previousPosition, Directions newDirection)
     {
         transform.GetChild(0).GetComponent<SnakeBodyPart>().Move(previousPosition, newDirection);
+        if (_shouldGrow == true)
+        {
+            SnakeBodyPart tail = transform.GetChild(transform.childCount - 1).GetComponent<SnakeBodyPart>();
+            GameObject newBodyPart = Instantiate(bodyPart, transform);
+            tail.Child = newBodyPart;
+            newBodyPart.GetComponent<SnakeBodyPart>().Init(tail.LastDirection, tail.PreviousPosition);
+            _shouldGrow = false;
+        }
+    }
+
+    public void Grow()
+    {
+        _shouldGrow = true;
     }
 
     private void InstantiateBodyParts(
@@ -24,7 +38,8 @@ public class SnakeBody : MonoBehaviour
         if (index < length)
         {
             GameObject newBodyPart = Instantiate(bodyPart, transform);
-            var bodyPartPosition = GetBodyPartPositionRelativeToParent(transform.position, direction);
+            var parentPosition = previousPartRef ? previousPartRef.transform.position : transform.position;
+            var bodyPartPosition = GetBodyPartPositionRelativeToParent(parentPosition, direction);
             newBodyPart.GetComponent<SnakeBodyPart>().Init(direction, bodyPartPosition);
             if (previousPartRef)
             {
