@@ -70,19 +70,9 @@ public class SnakeBodyPart : MonoBehaviour
             case (Directions.Up):
                 if (Child)
                 {
-                    if (LastDirection == Directions.Right)
-                    {
-                        return spCornerRightUp;
-
-                    }
-                    else if (LastDirection == Directions.Left)
-                    {
-                        return spCornerLeftUp;
-                    }
-                    else
-                    {
-                        return spBodyVertical;
-                    }
+                    if (LastDirection == Directions.Right) return spCornerRightUp;
+                    else if (LastDirection == Directions.Left) return spCornerLeftUp;
+                    else return spBodyVertical;
                 }
                 else
                 {
@@ -91,19 +81,9 @@ public class SnakeBodyPart : MonoBehaviour
             case (Directions.Right):
                 if (Child)
                 {
-                    if (LastDirection == Directions.Up)
-                    {
-                        return spCornerLeftDown;
-
-                    }
-                    else if (LastDirection == Directions.Down)
-                    {
-                        return spCornerLeftUp;
-                    }
-                    else
-                    {
-                        return spBodyHorizontal;
-                    }
+                    if (LastDirection == Directions.Up) return spCornerLeftDown;
+                    else if (LastDirection == Directions.Down) return spCornerLeftUp;
+                    else return spBodyHorizontal;
                 }
                 else
                 {
@@ -112,19 +92,9 @@ public class SnakeBodyPart : MonoBehaviour
             case (Directions.Down):
                 if (Child)
                 {
-                    if (LastDirection == Directions.Left)
-                    {
-                        return spCornerLeftDown;
-
-                    }
-                    else if (LastDirection == Directions.Right)
-                    {
-                        return spCornerRightDown;
-                    }
-                    else
-                    {
-                        return spBodyVertical;
-                    }
+                    if (LastDirection == Directions.Left) return spCornerLeftDown;
+                    else if (LastDirection == Directions.Right) return spCornerRightDown;
+                    else return spBodyVertical;
                 }
                 else
                 {
@@ -133,19 +103,9 @@ public class SnakeBodyPart : MonoBehaviour
             case (Directions.Left):
                 if (Child)
                 {
-                    if (LastDirection == Directions.Up)
-                    {
-                        return spCornerRightDown;
-
-                    }
-                    else if (LastDirection == Directions.Down)
-                    {
-                        return spCornerRightUp;
-                    }
-                    else
-                    {
-                        return spBodyHorizontal;
-                    }
+                    if (LastDirection == Directions.Up) return spCornerRightDown;
+                    else if (LastDirection == Directions.Down) return spCornerRightUp;
+                    else return spBodyHorizontal;
                 }
                 else
                 {
