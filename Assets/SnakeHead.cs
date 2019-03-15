@@ -71,8 +71,15 @@ public class SnakeHead : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        SendMessageUpwards("AteRabbit");
+        if (other.gameObject.name.StartsWith("Rabbit"))
+        {
+            SendMessageUpwards("AteRabbit");
+        }
+        if (other.gameObject.name.StartsWith("BodyPart"))
+        {
+            SendMessageUpwards("Died");
+        }
     }
 }

@@ -1,12 +1,12 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public enum Directions { Up, Right, Down, Left }
 
 public class Snake : MonoBehaviour
 {
-    public bool AteApple;
-    public bool IsDead;
     public float speed = 2f;
+    public Action onDeathCallback;
 
     const int STARTING_LENGTH = 2;
     const float WAIT_TIME = 2f;
@@ -75,4 +75,6 @@ public class Snake : MonoBehaviour
     }
 
     void AteRabbit() => _body.Grow();
+
+    void Died() => onDeathCallback();
 }
