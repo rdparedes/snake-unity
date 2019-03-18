@@ -91,6 +91,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 15
+  deathSound: {fileID: 8300000, guid: c510bb6877577d6478ee976187a8778d, type: 3}
 --- !u!1 &6702997640022580007
 GameObject:
   m_ObjectHideFlags: 0

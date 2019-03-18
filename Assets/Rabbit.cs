@@ -2,17 +2,21 @@
 
 public class Rabbit : MonoBehaviour
 {
+    public AudioClip eatSound;
+
     private void Start()
     {
         Vector2 newPosition;
         do
         {
-            newPosition = generateRandomPosition();
-        } while (Physics.CheckBox(newPosition, new Vector2(0.5f, 0.5f)) == true);
+            newPosition = GenerateRandomPosition();
+        } while (
+            Physics.CheckBox(newPosition, new Vector2(0.5f, 0.5f)) == true
+        );
         transform.position = newPosition;
     }
 
-    private Vector2 generateRandomPosition()
+    private Vector2 GenerateRandomPosition()
     {
         return new Vector2(
             Random.Range((int)Config.GridSize.x, (int)Config.GridSize.width),
@@ -21,6 +25,7 @@ public class Rabbit : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        AudioSource.PlayClipAtPoint(eatSound, transform.position);
         Instantiate(gameObject);
         Destroy(gameObject);
     }

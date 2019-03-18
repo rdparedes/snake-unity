@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
+    public GameObject menu;
     public Vector2 playerStartingPosition;
     public GameObject snake;
     public GameObject rabbit;
@@ -12,14 +13,20 @@ public class GameController : MonoBehaviour
     void Start()
     {
         Config.Init();
-        BeginScene();
+        ShowMenu();
     }
 
-    void BeginScene()
+    public void StartGame()
     {
+        menu.SetActive(false);
         snakeInstance = Instantiate(snake, playerStartingPosition, Quaternion.identity);
         snakeInstance.GetComponent<Snake>().onDeathCallback = GameOver;
         Instantiate(rabbit);
+    }
+
+    void ShowMenu()
+    {
+        menu.SetActive(true);
     }
 
     void GameOver()
@@ -32,6 +39,6 @@ public class GameController : MonoBehaviour
     IEnumerator Restart()
     {
         yield return new WaitForSeconds(2f);
-        BeginScene();
+        ShowMenu();
     }
 }

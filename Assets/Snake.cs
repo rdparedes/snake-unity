@@ -7,6 +7,7 @@ public class Snake : MonoBehaviour
 {
     public float speed = 2f;
     public Action onDeathCallback;
+    public AudioClip deathSound;
 
     const int STARTING_LENGTH = 2;
     const float WAIT_TIME = 2f;
@@ -76,5 +77,9 @@ public class Snake : MonoBehaviour
 
     void AteRabbit() => _body.Grow();
 
-    void Died() => onDeathCallback();
+    void Died()
+    {
+        AudioSource.PlayClipAtPoint(deathSound, transform.position);
+        onDeathCallback();
+    }
 }

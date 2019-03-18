@@ -150,3 +150,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1676f75ab9e32754fbf5d4c0c626a0bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  eatSound: {fileID: 8300000, guid: 4927f2b57c7eae74b86d9f6868c8dd69, type: 3}
