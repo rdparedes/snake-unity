@@ -13,7 +13,6 @@ public class GameController : MonoBehaviour
     void Start()
     {
         Config.Init();
-        ShowMenu();
     }
 
     public void StartGame()
